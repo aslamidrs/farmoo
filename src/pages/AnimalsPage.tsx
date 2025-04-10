@@ -22,7 +22,7 @@ const AnimalsPage = () => {
       item.gender.toLowerCase().includes(search)
   );
   return (
-    <div className="w-full bg-background px-4 py-4 h-screen flex flex-col">
+    <div className="w-full bg-background px-4 py-12 h-screen flex flex-col">
       <div className="mt-8 w-full max-w-md mx-auto relative">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <svg
@@ -53,6 +53,7 @@ const AnimalsPage = () => {
               <div
                 key={item.dob + item.name}
                 className="flex justify-between gap-2 items-center bg-white p-4 shadow-md"
+                onClick={() => navigate(`/protected/animal-details?id=${item.id}`)}
               >
                 <div className="h-16 w-16 overflow-hidden flex items-center justify-center">
                   {item.image ? (

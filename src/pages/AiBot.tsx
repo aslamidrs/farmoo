@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { generateAIResponse } from '../apiCalls/ai';
 import { marked } from 'marked';
+import { useAppContext } from '../context/AppContext';
 const AiBot = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -10,9 +11,12 @@ const AiBot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
 
+  const {aiData, setAiData} = useAppContext();
+
   const handleAiResponse = async (message: string) => {
     try {
-        let messages = JSON.parse(localStorage.getItem('messages:normal') || '[]');
+      // let messages = JSON.parse(localStorage.getItem('messages:normal') || '[]');
+      let messages = aiData || [];
         if(messages.length === 10) {
             return;
         }
@@ -21,7 +25,8 @@ const AiBot = () => {
         const response = await generateAIResponse(message);
         setAiResponse(response.candidates[0].content.parts[0].text);
         messages = [...messages, response.candidates[0].content.parts[0].text];
-        localStorage.setItem('messages:normal', JSON.stringify(messages));
+      // localStorage.setItem('messages:normal', JSON.stringify(messages));
+      setAiData(messages);
         setIsLoading(false);
     } catch (error) {
         console.error('Error generating AI response:', error);
@@ -46,7 +51,7 @@ const AiBot = () => {
 
         <div className="flex flex-col space-y-4 mt-4 pb-48">
           {/* User Message */}
-          {JSON.parse(localStorage.getItem('messages:normal') || '[]').map((msg: string, index: number) => {
+          {aiData.map((msg: string, index: number) => {
             if(index % 2 === 0) {
                 return (
                     <div key={index} className="flex justify-end">

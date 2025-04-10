@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { LandingPage } from "./pages/LandingPage";
-import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { AddAnimalPage } from "./pages/AddAnimalPage";
 import ProfilePage from "./pages/Profile";
@@ -11,6 +10,7 @@ import AnimalsPage from "./pages/AnimalsPage";
 import CommunityPage from "./pages/CommunityPage";
 import CommunityPost from "./pages/CommunityPost";
 import AiBot from "./pages/AiBot";
+import LoginPage from "./pages/LoginPage";
 
 const App: React.FC = () => {
   return (

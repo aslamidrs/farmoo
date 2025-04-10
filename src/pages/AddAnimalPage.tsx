@@ -44,19 +44,31 @@ export const AddAnimalPage: React.FC = () => {
 
 
   const onSubmit = (data: any) => {
-    handleAddAnimal(data);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64 = reader.result as string;
+      // use context handler to save
+          handleAddAnimal({...data, id:  Date.now().toString(36) + Math.random().toString(36).slice(2),
+ image: base64});
+
+    };
+    reader.readAsDataURL(data.image);
     navigate('/protected/animals');
   };
 
-  console.log("Animal Data:", animalData);
+const image = watch("image"); // This is now a real File object
 
-  const image = watch("image");
-  const imagePreview = useMemo(() => image, [image]);
-
+const imagePreview = useMemo(() => {
+  if (image instanceof File) {
+    return URL.createObjectURL(image);
+  }
+  return null;
+}, [image]);
+  
   const selectedAnimalType = watch("type") || animalType;
 
   return (
-    <div className="min-h-screen bg-background py-8 px-4">
+    <div className="min-h-screen bg-background py-8 mt-32 mb-8 px-4">
       <div className="flex flex-col items-center mb-6">
         <label htmlFor="animal-img">
           {imagePreview ? (
@@ -75,13 +87,19 @@ export const AddAnimalPage: React.FC = () => {
           name="image"
           control={control}
           rules={{ required: "Image is required" }}
-          render={({ field }) => (
+          render={({ field: { onChange, ref } }) => (
             <input
               id="animal-img"
               type="file"
               accept="image/*"
               className="mt-2 text-sm w-0 h-0"
-              {...field}
+              ref={ref}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  onChange(file); // 🔁 Save the actual File object in form state
+                }
+              }}
             />
           )}
         />

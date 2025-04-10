@@ -5,16 +5,22 @@ import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { AddAnimalPage } from "./pages/AddAnimalPage";
 import { HomePage } from "./pages/HomePage";
+import PageContainer from "./containers/Page";
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        {/* Public routes */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/add-animal" element={<AddAnimalPage />} />
+
+        {/* Protected routes with layout */}
+        <Route path="/protected" element={<PageContainer />}>
+          <Route path="landing" element={<LandingPage />} />
+          <Route path="home" element={<HomePage />} />
+          <Route path="add-animal" element={<AddAnimalPage />} />
+        </Route>
       </Routes>
     </Router>
   );

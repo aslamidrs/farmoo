@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Input } from "../components/ui/Input";
 import { Select } from "../components/ui/Select";
 import { TextArea } from "../components/ui/TextArea";
 import { Label } from "../components/ui/Label";
 import { Button } from "../components/ui/Button";
+import { useAppContext } from "../context/AppContext";
 
 const breedOptions: Record<string, string[]> = {
   cow: ["Gir", "Sahiwal", "Red Sindhi"],
@@ -24,6 +25,8 @@ export const AddAnimalPage: React.FC = () => {
     formState: { errors },
   } = useForm();
 
+  const { setAnimalData, animalData } = useAppContext();
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
@@ -33,6 +36,7 @@ export const AddAnimalPage: React.FC = () => {
   };
 
   const onSubmit = (data: any) => {
+    setAnimalData(data);
     console.log(data);
   };
 
@@ -63,7 +67,7 @@ export const AddAnimalPage: React.FC = () => {
         />
       </div>
 
-      <h2 className="text-2xl font-bold mb-6 text-center">
+      <h2 className="text-2xl font-bold mb-6 text-center text-primary">
         Add Animal Details
       </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

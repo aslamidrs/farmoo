@@ -10,9 +10,9 @@ export default function NavbarContainer(props: NavbarContainerProps) {
       <footer className="sticky bottom-0 bg-white shadow-inner flex justify-around text-xs">
         <button
           onClick={() => props.navigate("/protected/home")}
-          className="flex flex-col items-center text-blue-600 p-2 w-28"
+          className="flex flex-col items-center p-2 w-28"
         >
-          <UsersRound size={28} />
+          <UsersRound size={28} className="text-primary" />
           <span>Community</span>
         </button>
         <div className="relative w-16">
@@ -27,7 +27,7 @@ export default function NavbarContainer(props: NavbarContainerProps) {
           onClick={() => props.navigate("/protected/profile")}
           className="flex flex-col items-center p-2 w-28"
         >
-          <Receipt size={28} />
+          <Receipt size={28} className="text-primary" />
           <span>Trade</span>
         </button>
       </footer>

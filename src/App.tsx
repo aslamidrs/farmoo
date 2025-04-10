@@ -7,9 +7,11 @@ import { AddAnimalPage } from "./pages/AddAnimalPage";
 import { HomePage } from "./pages/HomePage";
 import ProfilePage from "./pages/Profile";
 import PageContainer from "./containers/Page";
+import { AppProvider } from "./context/AppContext";
 
 const App: React.FC = () => {
   return (
+    <AppProvider>
     <Router>
       <Routes>
         {/* Public routes */}
@@ -22,7 +24,8 @@ const App: React.FC = () => {
         </Route>
         <Route path="/" element={<LandingPage />} />
       </Routes>
-    </Router>
+      </Router>
+      </AppProvider>
   );
 };
 

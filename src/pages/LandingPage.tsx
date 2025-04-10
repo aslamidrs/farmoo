@@ -30,8 +30,9 @@ export const LandingPage: React.FC = () => {
                 <p className="text-sm text-gray-500">Apr 2025</p>
               </div>
               <div className="w-full flex flex-col">
-                <div className="bg-red-100 w-full h-8 flex items-center justify-center border-red-500 border border-l-0">
-                  <p className="text-sm text-red-500">Missed Vaccine</p>
+                <div className="bg-red-100 w-full h-8 flex items-center justify-center border-red-500 border border-l-0 relative">
+                  <p className="text-sm text-red-500 rounded-md">Missed Vaccine</p>
+                  <div className="absolute -left-1 h-full w-2 bg-red-100" ></div>
                 </div>
                 <div className="w-full h-12 flex items-center justify-center">
                   <p className="text-md">Akash | Vaccine Name</p>

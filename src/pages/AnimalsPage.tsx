@@ -3,6 +3,7 @@ import { animalIcons } from "../assets/animal-icons";
 import { useAppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import { getYearDifference } from "../helpers/getYearDifference";
+import dayjs from "dayjs";
 
 const AnimalsPage = () => {
   const [search, setSearch] = useState("");
@@ -46,17 +47,19 @@ const AnimalsPage = () => {
           className="pl-10 w-full rounded-lg border border-gray-300 focus:ring-0 focus:border-0 p-2.5"
         />
       </div>
-      <div className="mt-8 w-full max-w-md mx-auto relative max-h-[500px] overflow-y-auto">
+      <div className="mt-8 w-full max-w-md mx-auto relative max-h-[650px] overflow-y-auto">
         {animalData.length > 0 ? (
           <div className="grid grid-cols-1 gap-4">
-            {filteredList.map((item) => (
+            {filteredList.map((item) => {
+                console.log(item)
+                return (
               <div
                 key={item.dob + item.name}
                 className="flex justify-between gap-2 items-center bg-white p-4 shadow-md"
-                onClick={() => navigate(`/protected/animal-details?id=${item.id}`)}
+                onClick={() => navigate(`/protected/animal-details/${item.id}`)}
               >
                 <div className="h-16 w-16 overflow-hidden flex items-center justify-center">
-                  {item.image ? (
+                  {item.image  ? (
                     <img
                       src={item.image}
                       alt="profile"
@@ -78,11 +81,12 @@ const AnimalsPage = () => {
                     {item.breed} | {item.type}
                   </p>
                   <p className="text-sm text-gray-500">
-                    {getYearDifference(item.dob)} | {item.gender}
+                    {dayjs().diff(dayjs(item.dob), 'month')} months | {item.gender}
                   </p>
                 </div>
               </div>
-            ))}
+            )
+            })}
             <button
               onClick={() => navigate("/protected/add-animal")}
               className="bg-primary text-white px-4 py-2 rounded-md"

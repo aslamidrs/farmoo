@@ -31,6 +31,198 @@ const breedOptions: Record<string, string[]> = {
   ],
 };
 
+const vaccinationData = {
+  cow: [
+      {
+        ageInMonth: 0,
+        vaccines: [
+          {
+            name: "Calfhood Vaccine",
+            purpose: "Basic respiratory protection",
+            repeat: "Once",
+            isOptional: true
+          }
+        ]
+      },
+      {
+        ageInMonth: 3, // 3 months
+        vaccines: [
+          {
+            name: "FMD",
+            fullName: "Foot & Mouth Disease", 
+            purpose: "Viral disease prevention",
+            repeat: "Every 6 months"
+          }
+        ]
+      },
+      {
+        ageInMonth: 4, // 4 months
+        vaccines: [
+          {
+            name: "HS",
+            fullName: "Hemorrhagic Septicemia",
+            purpose: "Bacterial infection (monsoon disease)",
+            repeat: "Annually"
+          },
+          {
+            name: "BQ",
+            fullName: "Black Quarter",
+            purpose: "Sudden muscle infection", 
+            repeat: "Annually"
+          }
+        ]
+      },
+      {
+        ageInMonth: 6, // 6 months
+        vaccines: [
+          {
+            name: "Brucellosis",
+            purpose: "Infertility/abortion prevention",
+            repeat: "Once in lifetime",
+            forFemaleOnly: true
+          }
+        ]
+      },
+      {
+        ageInMonth: 9, // 9 months
+        vaccines: [
+          {
+            name: "Theileriosis",
+            purpose: "Tick-borne disease",
+            repeat: "Once",
+            isOptional: true
+          }
+        ]
+      }
+  ],
+  buffalo: [
+      {
+        ageInMonth: 0,
+        vaccines: [
+          {
+            name: "Calfhood Vaccine",
+            purpose: "Basic respiratory protection",
+            repeat: "Once",
+            isOptional: true
+          }
+        ]
+      },
+      {
+        ageInMonth: 3, // 3 months
+        vaccines: [
+          {
+            name: "FMD",
+            fullName: "Foot & Mouth Disease", 
+            purpose: "Viral disease prevention",
+            repeat: "Every 6 months"
+          }
+        ]
+      },
+      {
+        ageInMonth: 4, // 4 months
+        vaccines: [
+          {
+            name: "HS",
+            fullName: "Hemorrhagic Septicemia",
+            purpose: "Bacterial infection (monsoon disease)",
+            repeat: "Annually"
+          },
+          {
+            name: "BQ",
+            fullName: "Black Quarter",
+            purpose: "Sudden muscle infection", 
+            repeat: "Annually"
+          }
+        ]
+      },
+      {
+        ageInMonth: 6, // 6 months
+        vaccines: [
+          {
+            name: "Brucellosis",
+            purpose: "Infertility/abortion prevention",
+            repeat: "Once in lifetime",
+            forFemaleOnly: true
+          }
+        ]
+      },
+      {
+        ageInMonth: 9, // 9 months
+        vaccines: [
+          {
+            name: "Theileriosis",
+            purpose: "Tick-borne disease",
+            repeat: "Once",
+            isOptional: true
+          }
+        ]
+      }
+  ],
+  goat: [
+      {
+        ageInMonth: 0,
+        vaccines: [
+          {
+            name: "Calfhood Vaccine",
+            purpose: "Basic respiratory protection",
+            repeat: "Once",
+            isOptional: true
+          }
+        ]
+      },
+      {
+        ageInMonth: 3, // 3 months
+        vaccines: [
+          {
+            name: "FMD",
+            fullName: "Foot & Mouth Disease", 
+            purpose: "Viral disease prevention",
+            repeat: "Every 6 months"
+          }
+        ]
+      },
+      {
+        ageInMonth: 4, // 4 months
+        vaccines: [
+          {
+            name: "HS",
+            fullName: "Hemorrhagic Septicemia",
+            purpose: "Bacterial infection (monsoon disease)",
+            repeat: "Annually"
+          },
+          {
+            name: "BQ",
+            fullName: "Black Quarter",
+            purpose: "Sudden muscle infection", 
+            repeat: "Annually"
+          }
+        ]
+      },
+      {
+        ageInMonth: 6, // 6 months
+        vaccines: [
+          {
+            name: "Brucellosis",
+            purpose: "Infertility/abortion prevention",
+            repeat: "Once in lifetime",
+            forFemaleOnly: true
+          }
+        ]
+      },
+      {
+        ageInMonth: 9, // 9 months
+        vaccines: [
+          {
+            name: "Theileriosis",
+            purpose: "Tick-borne disease",
+            repeat: "Once",
+            isOptional: true
+          }
+        ]
+      }
+  ],
+}
+
 export const AddAnimalPage: React.FC = () => {
   const [animalType, setAnimalType] = useState("");
   const navigate = useNavigate();
@@ -47,13 +239,14 @@ export const AddAnimalPage: React.FC = () => {
 
   const onSubmit = (data: any) => {
     const reader = new FileReader();
+    const id = Date.now().toString(36) + Math.random().toString(36).slice(2)
     if (data.image) {
       reader.onloadend = () => {
         const base64 = reader.result as string;
         // use context handler to save
         handleAddAnimal({
           ...data,
-          id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+          id,
           image: base64,
         });
       };
@@ -61,7 +254,7 @@ export const AddAnimalPage: React.FC = () => {
     } else {
        handleAddAnimal({
          ...data,
-         id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+         id,
          image: '',
        });
     }
@@ -72,6 +265,7 @@ export const AddAnimalPage: React.FC = () => {
       date: new Date().toISOString(),
       read: false,
     });
+    localStorage.setItem(`${id}-vaccination`, JSON.stringify(vaccinationData[data.type as keyof typeof vaccinationData]));
     navigate('/protected/animals');
   };
 
@@ -246,7 +440,7 @@ const imagePreview = useMemo(() => {
           />
         </div>
 
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full mb-10">
           Submit
         </Button>
       </form>

@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getVaccineSchedule } from "../components/vaccine-cow";
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
+  const [vaccineSchedule, setVaccineSchedule] = useState<any[]>([]);
+
+  useEffect(() => {
+    const schedule = getVaccineSchedule(new Date());
+    setVaccineSchedule(schedule);
+  }, []);
+
   return (
     <div className="w-full h-screen bg-background">
       <div className="flex flex-col items-center">
@@ -37,6 +45,12 @@ export const LandingPage: React.FC = () => {
             </div>
           </div>
         </div>
+        {/* <div className="flex flex-col justify-center w-full p-4 shadow-xl bg-white rounded-2xl">
+          <h2 className="text-2xl p-4 font-bold text-primary text-center">Vaccine Schedule</h2>
+          <div className="flex flex-col p-4 w-full">
+            
+          </div>
+        </div> */}
         <div 
           onClick={() => window.open('https://wa.me/7460833848', '_blank')}
           className="flex border-2 rounded-2xl w-7/8 mt-8 mb-2 p-4 bg-white border-gray-400 cursor-pointer hover:bg-gray-50"
@@ -56,6 +70,15 @@ export const LandingPage: React.FC = () => {
           <div className="flex flex-col pl-4 justify-center">
             <p className="text-xl font-bold text-primary">Ask our AI Vet</p>
             <p className="text-md text-gray-500">Get instant help from our AI Vet</p>
+          </div>
+        </div>
+        <div onClick={() => navigate('/protected/profile')} className="flex mt-2 mb-20 border-2 rounded-2xl w-7/8 p-4 bg-white border-gray-400">
+          <div className="flex items-center justify-center p-4 border-r border-gray-400">
+          <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/pinguin--v1.png" alt="pinguin--v1"/>
+          </div>
+          <div className="flex flex-col pl-4 justify-center">
+            <p className="text-xl font-bold text-primary">Track your animals</p>
+            <p className="text-md text-gray-500">Glance at your pets</p>
           </div>
         </div>
       </div>

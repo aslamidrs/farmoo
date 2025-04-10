@@ -1,11 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export const LandingPage: React.FC = () => {
+  const navigate = useNavigate();
   return (
     <div className="w-full h-screen bg-background">
       <div className="flex flex-col items-center">
         <div className="flex flex-col justify-center w-full p-4 shadow-xl mt-36 bg-white rounded-2xl">
-        <h2 className="text-2xl p-4 font-bold text-primary text-center">Upcoming Vaccines</h2>
+          <h2 className="text-2xl p-4 font-bold text-primary text-center">Upcoming Vaccines</h2>
           <div className="flex flex-col p-4 w-full">
             <div className="my-2 w-full flex flex-row shadow rounded-2xl">
               <div className="w-32 h-20 flex flex-col items-center justify-center border-r border-red-500">
@@ -33,6 +35,27 @@ export const LandingPage: React.FC = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div 
+          onClick={() => window.open('https://wa.me/7460833848', '_blank')}
+          className="flex border-2 rounded-2xl w-7/8 mt-8 mb-2 p-4 bg-white border-gray-400 cursor-pointer hover:bg-gray-50"
+        >
+          <div className="flex items-center justify-center p-4 border-r border-gray-400">
+            <img width="50" height="50" src="https://img.icons8.com/ios/50/whatsapp.png" alt="whatsapp" />
+          </div>
+          <div className="flex flex-col pl-4 justify-center">
+            <p className="text-xl font-bold text-primary">Chat with Farmoo</p>
+            <p className="text-md text-gray-500">Ask anything about your farm</p>
+          </div>
+        </div>
+        <div onClick={() => navigate('/protected/ai?vet=true')} className="flex border-2 rounded-2xl w-7/8 p-4 bg-white border-gray-400">
+          <div className="flex items-center justify-center p-4 border-r border-gray-400">
+          <img width="50" height="50" src="https://img.icons8.com/ios/50/veterinarian-male.png" alt="veterinarian-male"/>
+          </div>
+          <div className="flex flex-col pl-4 justify-center">
+            <p className="text-xl font-bold text-primary">Ask our AI Vet</p>
+            <p className="text-md text-gray-500">Get instant help from our AI Vet</p>
           </div>
         </div>
       </div>

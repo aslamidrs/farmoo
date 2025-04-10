@@ -7,26 +7,39 @@ const AiBot = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const input = searchParams.get('input') || '';
-  const [aiResponse, setAiResponse] = useState('');
+  const vet = searchParams.get('vet') || '';
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
 
-  const {aiData, setAiData} = useAppContext();
+  const {aiData, setAiData, vetAiData, setVetAiData} = useAppContext();
 
   const handleAiResponse = async (message: string) => {
     try {
-      // let messages = JSON.parse(localStorage.getItem('messages:normal') || '[]');
       let messages = aiData || [];
         if(messages.length === 10) {
             return;
         }
         messages = [...messages, message];
         setIsLoading(true);
-        const response = await generateAIResponse(message);
-        setAiResponse(response.candidates[0].content.parts[0].text);
+        const response = await generateAIResponse(message, false);
         messages = [...messages, response.candidates[0].content.parts[0].text];
-      // localStorage.setItem('messages:normal', JSON.stringify(messages));
       setAiData(messages);
+        setIsLoading(false);
+    } catch (error) {
+        console.error('Error generating AI response:', error);
+    }
+};
+  const handleVetAiResponse = async (message: string) => {
+    try {
+      let messages = vetAiData || [];
+        if(messages.length === 10) {
+            return;
+        }
+        messages = [...messages, message];
+        setIsLoading(true);
+        const response = await generateAIResponse(message, true);
+        messages = [...messages, response.candidates[0].content.parts[0].text];
+        setVetAiData(messages);
         setIsLoading(false);
     } catch (error) {
         console.error('Error generating AI response:', error);
@@ -35,16 +48,21 @@ const AiBot = () => {
 
   useEffect(() => {
     if(input) {
-        handleAiResponse(input);
+        if(vet === 'true') {
+            handleVetAiResponse(input);
+        }
+        else {
+            handleAiResponse(input);
+        }
     }
-  }, [input]);
+  }, [input, vet]);
 
   return (
     <div className="w-full h-screen">
       <div className="w-full h-full bg-white rounded-lg mb-4 p-4">
         <button 
           onClick={() => window.history.back()}
-          className="mt-36 pt-4 bg-none text-primary rounded-lg text-sm hover:bg-primary/90 transition-colors"
+          className="mt-12 pt-4 bg-none text-primary rounded-lg text-sm hover:bg-primary/90 transition-colors"
         >
           ← Go Back
         </button>
@@ -89,7 +107,7 @@ const AiBot = () => {
           <form onSubmit={(e) => {
             e.preventDefault();
             if (message.trim()) {
-                handleAiResponse(message);
+                vet ? handleVetAiResponse(message) : handleAiResponse(message);
                 setMessage('');
               }
           }} className="flex space-x-2">

@@ -28,6 +28,8 @@ interface AppContextType {
   setUser: (user: string | null) => void;
   aiData: string[];
   setAiData: (data: string[]) => void;
+    vetAiData: string[];
+    setVetAiData: (data: string[]) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -40,19 +42,18 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [animalData, setAnimalData] = useAnimalDataState([]);
-  const [user, setUser] = useUserState(null);
-  const [aiData, setAiData] = useAiData([]);
+    const [user, setUser] = useUserState(null);
+    const [ aiData, setAiData ] = useAiData([]);
+    const [ vetAiData, setVetAiData ] = useAiData([]);
 
   const handleAddAnimal = (data: AnimalData) => {
     setAnimalData((prev) => [...prev, data]);
   };
 
   return (
-    <AppContext.Provider
-      value={{ animalData, handleAddAnimal, user, setUser, aiData, setAiData }}
-    >
+    <AppContext.Provider value={{ animalData, handleAddAnimal, user, setUser, aiData, setAiData, vetAiData, setVetAiData }}>
       {children}
-    </AppContext.Provider>
+    </AppContext.Provider>  
   );
 };
 

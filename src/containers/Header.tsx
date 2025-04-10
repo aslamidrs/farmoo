@@ -24,7 +24,7 @@ export default function HeaderContainer() {
           </div>
           <Bell size={20} className="text-primary" />
         </div>
-        <div className="relative w-full max-w-md px-2 my-4">
+        {window.location.pathname === '/protected/ai' ? null : <div className="relative w-full max-w-md px-2 my-4">
           <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center">
             <div className="relative w-6 h-6">
               {/* Animated stars */}
@@ -66,7 +66,7 @@ export default function HeaderContainer() {
               </button>
             )}
           </div>
-        </div>
+        </div>}
       </header>
     );
 }

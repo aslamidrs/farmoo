@@ -72,6 +72,15 @@ export const LandingPage: React.FC = () => {
             <p className="text-md text-gray-500">Get instant help from our AI Vet</p>
           </div>
         </div>
+        <div onClick={() => navigate('/protected/profile')} className="flex mt-2 mb-20 border-2 rounded-2xl w-7/8 p-4 bg-white border-gray-400">
+          <div className="flex items-center justify-center p-4 border-r border-gray-400">
+          <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/pinguin--v1.png" alt="pinguin--v1"/>
+          </div>
+          <div className="flex flex-col pl-4 justify-center">
+            <p className="text-xl font-bold text-primary">Track your animals</p>
+            <p className="text-md text-gray-500">Glance at your pets</p>
+          </div>
+        </div>
       </div>
     </div>
   );

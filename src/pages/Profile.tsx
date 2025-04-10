@@ -1,37 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { animalIcons } from '../assets/animal-icons';
+import { useNavigate } from 'react-router-dom';
+import { useAppContext } from '../context/AppContext';
+import dayjs from 'dayjs';
 
 const ProfilePage = () => {
+    const navigate = useNavigate();
     const [search, setSearch] = useState('');
-    const [list, setList] = useState([
-        {
-            id: 1,
-            name: 'Akash',
-            age: 20,
-            gender: 'Male',
-            category: 'Cow',
-            breed: 'Katphodwa',
-            image: ''
-        },
-        {
-            id: 1,
-            name: 'Sunil',
-            age: 2,
-            gender: 'Female',
-            category: 'Goat',
-            breed: 'chota',
-            image: ''
-        },
-        {
-            id: 3,
-            name: 'Sandeep',
-            age: 20,
-            gender: 'Male',
-            category: 'Bull',
-            breed: 'Neon',
-            image: 'https://plus.unsplash.com/premium_photo-1677850456958-d2d54a85f126?fm=jpg&q=60&w=100'
-        },
-    ]);
+    const { animalData } = useAppContext();
+    const [list, setList] = useState<any[]>(animalData || []);
+
+    useEffect(() => {
+        setList(animalData);
+    }, []);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value.toLowerCase();
@@ -46,7 +27,7 @@ const ProfilePage = () => {
   );
   return (
     <div className='w-full bg-background px-4 py-4 h-screen flex flex-col'>
-        <div className="flex items-center gap-6 justify-center">
+        <div className="flex items-center gap-6 mt-40 justify-center">
             <div className='rounded-full h-20 w-20 overflow-hidden'>
                 <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?fm=jpg&q=60&w=100" alt="profile" className='w-full h-full object-cover'/>
             </div>
@@ -71,19 +52,22 @@ const ProfilePage = () => {
             />
         </div>
         <div className="mt-8 w-full max-w-md mx-auto relative max-h-[500px] overflow-y-auto">
-            <div className="grid grid-cols-1 gap-4">
-                {filteredList.map((item) => (
-                    <div key={item.id} className="flex justify-between gap-2 items-center bg-white p-4 shadow-md">
+        <div className="grid grid-cols-1 gap-4 pb-20">
+                {filteredList.map((item) => {
+                    console.log({item})
+                    return (
+                    <div onClick={() => navigate(`/protected/animal-details/${item.id}`)} key={item.id} className="flex justify-between gap-2 items-center bg-white p-4 shadow-md">
                         <div className='h-16 w-16 overflow-hidden flex items-center justify-center'>
-                            {item.image ? <img src={item.image} alt="profile" className='w-full h-full rounded-full object-cover'/> : <img src={animalIcons[item.category as keyof typeof animalIcons]} alt="profile" className='object-cover h-12 w-12'/>}
+                            {item.image ? <img src={item.image} alt="profile" className='w-full h-full rounded-full object-cover'/> : <img src={animalIcons[item.type as keyof typeof animalIcons]} alt="profile" className='object-cover h-12 w-12'/>}
                         </div>
                         <div className='flex flex-col text-right'>
                             <h2 className="text-lg font-bold text-primary">{item.name}</h2>
-                            <p className="text-sm text-gray-500">{item.breed} | {item.category}</p>
-                            <p className="text-sm text-gray-500">{item.age} | {item.gender}</p>
+                            <p className="text-sm text-gray-500">{item.breed} | {item.gender}</p>
+                            <p className="text-sm text-gray-500">{dayjs().diff(dayjs(item.dob), 'month')} months | {item.weight} KG</p>
                         </div>
                     </div>
-                ))}
+                )
+            })}
             </div>
         </div>
     </div>

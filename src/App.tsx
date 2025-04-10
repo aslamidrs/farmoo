@@ -52,7 +52,7 @@ const App: React.FC = () => {
             />
             <Route path="ai" element={<AiBot />} />
             <Route
-              path="animal-details"
+              path="animal-details/:id"
               element={<ProtectedRoute element={<AnimalDetailsPage />} />}
             />
           </Route>

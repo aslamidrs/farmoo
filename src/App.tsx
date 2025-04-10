@@ -5,7 +5,7 @@ import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { AddAnimalPage } from "./pages/AddAnimalPage";
 import { HomePage } from "./pages/HomePage";
-import PageContainer from "./containers/Page";
+import ProfilePage from "./pages/Profile";
 
 const App: React.FC = () => {
   return (
@@ -14,13 +14,10 @@ const App: React.FC = () => {
         {/* Public routes */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-
-        {/* Protected routes with layout */}
-        <Route path="/protected" element={<PageContainer />}>
-          <Route path="landing" element={<LandingPage />} />
-          <Route path="home" element={<HomePage />} />
-          <Route path="add-animal" element={<AddAnimalPage />} />
-        </Route>
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/add-animal" element={<AddAnimalPage />} />
+        <Route path="/" element={<LandingPage />} />
       </Routes>
     </Router>
   );

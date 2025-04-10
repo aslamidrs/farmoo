@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getVaccineSchedule } from "../components/vaccine-cow";
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
+  const [vaccineSchedule, setVaccineSchedule] = useState<any[]>([]);
+
+  useEffect(() => {
+    const schedule = getVaccineSchedule(new Date());
+    setVaccineSchedule(schedule);
+  }, []);
+
   return (
     <div className="w-full h-screen bg-background">
       <div className="flex flex-col items-center">
@@ -37,6 +45,12 @@ export const LandingPage: React.FC = () => {
             </div>
           </div>
         </div>
+        {/* <div className="flex flex-col justify-center w-full p-4 shadow-xl bg-white rounded-2xl">
+          <h2 className="text-2xl p-4 font-bold text-primary text-center">Vaccine Schedule</h2>
+          <div className="flex flex-col p-4 w-full">
+            
+          </div>
+        </div> */}
         <div 
           onClick={() => window.open('https://wa.me/7460833848', '_blank')}
           className="flex border-2 rounded-2xl w-7/8 mt-8 mb-2 p-4 bg-white border-gray-400 cursor-pointer hover:bg-gray-50"

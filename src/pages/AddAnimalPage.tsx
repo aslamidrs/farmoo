@@ -45,14 +45,24 @@ export const AddAnimalPage: React.FC = () => {
 
   const onSubmit = (data: any) => {
     const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64 = reader.result as string;
-      // use context handler to save
-          handleAddAnimal({...data, id:  Date.now().toString(36) + Math.random().toString(36).slice(2),
- image: base64});
-
-    };
-    reader.readAsDataURL(data.image);
+    if (data.image) {
+      reader.onloadend = () => {
+        const base64 = reader.result as string;
+        // use context handler to save
+        handleAddAnimal({
+          ...data,
+          id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+          image: base64,
+        });
+      };
+      reader.readAsDataURL(data.image);
+    } else {
+       handleAddAnimal({
+         ...data,
+         id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+         image: '',
+       });
+    }
     navigate('/protected/animals');
   };
 
@@ -86,7 +96,7 @@ const imagePreview = useMemo(() => {
         <Controller
           name="image"
           control={control}
-          rules={{ required: "Image is required" }}
+          rules={{  }}
           render={({ field: { onChange, ref } }) => (
             <input
               id="animal-img"

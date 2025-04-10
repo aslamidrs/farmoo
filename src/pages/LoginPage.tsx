@@ -150,15 +150,15 @@ const LoginPage: React.FC = () => {
             </button>
           </form>
           <div className="mt-[24px] flex flex-col gap-[16px] items-center">
-            <a
+            {/* <a
               href="#"
               className="text-[#74C69D] hover:text-[#95D5B2] text-[15px]"
             >
               Forgot Password?
-            </a>
+            </a> */}
             <p className="text-[rgba(255,255,255,0.7)] text-[15px]">
               <span>Don't have an account? </span>
-              <a href="#" className="text-[#74C69D] hover:text-[#95D5B2]">
+              <a href="/register" className="text-[#74C69D] hover:text-[#95D5B2]">
                 {" "}
                 Sign up{" "}
               </a>

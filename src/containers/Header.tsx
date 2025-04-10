@@ -1,6 +1,18 @@
 import { Bell, Menu } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function HeaderContainer() {
+    const [inputText, setInputText] = useState('');
+    const navigate = useNavigate();
+    const handleSendClick = async () => {
+        try {
+            navigate(`/protected/ai/?input=${inputText}`);
+        } catch (error) {
+            console.error('Error generating AI response:', error);
+        }
+    };
+
     return (
       <header className="fixed w-full top-0 shadow-sm z-10 flex flex-col gap-2 py-4 px-2 mb-4 bg-white">
         <div className="flex justify-between items-center px-4">
@@ -8,7 +20,7 @@ export default function HeaderContainer() {
             <button>
               <Menu size={32} className="text-primary" />
             </button>
-            <h1 className="text-2xl text-primary font-bold">Farmoo</h1>
+            <h1 onClick={() => navigate('/protected/landing')} className="text-2xl text-primary font-bold">Farmoo</h1>
           </div>
           <Bell size={20} className="text-primary" />
         </div>
@@ -34,11 +46,26 @@ export default function HeaderContainer() {
               </div>
             </div>
           </div>
-          <input
-            type="text"
-            placeholder="Ask me anything..."
-            className="w-full pl-12 pr-4 py-2 focus:outline-none rounded-full border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ease-in-out"
-          />
+          <div className="relative flex items-center">
+            <input
+              type="text"
+              placeholder="Ask me anything..."
+              className="w-full pl-12 pr-12 py-2 focus:outline-none rounded-full border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 ease-in-out"
+              onChange={(e) => setInputText(e.target.value)}
+              value={inputText}
+            />
+            {inputText && (
+              <button
+                onClick={handleSendClick}
+                className="absolute rotate-45 right-3 p-2 text-white bg-secondary rounded-full hover:bg-secondary/90 transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="mr-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+              </button>
+            )}
+          </div>
         </div>
       </header>
     );

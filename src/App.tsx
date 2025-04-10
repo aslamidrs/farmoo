@@ -10,6 +10,7 @@ import { AppProvider } from "./context/AppContext";
 import AnimalsPage from "./pages/AnimalsPage";
 import CommunityPage from "./pages/CommunityPage";
 import CommunityPost from "./pages/CommunityPost";
+import AiBot from "./pages/AiBot";
 
 const App: React.FC = () => {
   return (
@@ -27,6 +28,7 @@ const App: React.FC = () => {
           <Route path="landing" element={<LandingPage />} />
           <Route path="community" element={<CommunityPage />} />
           <Route path="community/:id" element={<CommunityPost />} />
+          <Route path="ai" element={<AiBot />} />
         </Route>
       </Routes>
       </Router>

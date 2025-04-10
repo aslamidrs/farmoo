@@ -3,8 +3,8 @@ import React from "react";
 export const LandingPage: React.FC = () => {
   return (
     <div className="w-full h-screen bg-background">
-      <div className="flex flex-col items-center h-full">
-        <div className="flex flex-col justify-center w-full p-4 shadow-xl bg-white rounded-2xl">
+      <div className="flex flex-col items-center">
+        <div className="flex flex-col justify-center w-full p-4 shadow-xl mt-36 bg-white rounded-2xl">
         <h2 className="text-2xl p-4 font-bold text-primary text-center">Upcoming Vaccines</h2>
           <div className="flex flex-col p-4 w-full">
             <div className="my-2 w-full flex flex-row shadow rounded-2xl">

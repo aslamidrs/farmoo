@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useAppContext } from "../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const UserRegistrationScreen = () => {
+  const { handleRegisteredUsers, setUser, user } = useAppContext();
   const [formData, setFormData] = useState({
     fullName: "",
     mobileNumber: "",
@@ -10,14 +13,17 @@ const UserRegistrationScreen = () => {
     pincode: "",
     aadharCard: null,
     languagePreference: "english",
-    termsAgreed: false,
+    termsAgreed: true,
     animalTypes: {
       cow: false,
       buffalo: false,
       goat: false,
     },
+    password: "",
     numberOfAnimals: "",
   });
+    const navigate = useNavigate();
+
 
   const handleChange = (event) => {
     const { name, value, type, checked, files } = event.target;
@@ -25,7 +31,10 @@ const UserRegistrationScreen = () => {
       if (type === "checkbox") {
         return {
           ...prevData,
-          [name]: checked,
+          animalTypes: {
+            ...prevData.animalTypes,
+            [name]: checked,
+          },
         };
       } else if (type === "file") {
         return {
@@ -53,7 +62,12 @@ const UserRegistrationScreen = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Form Data Submitted:", formData);
+    console.log(formData, "formDAta"); 
+    const id = Date.now().toString(36) + Math.random().toString(36).slice(2);
+    handleRegisteredUsers({ ...formData, id });
     // Implement your registration logic here
+    setUser(id);
+    navigate("/protected/landing");
   };
 
   return (
@@ -97,6 +111,24 @@ const UserRegistrationScreen = () => {
               id="mobileNumber"
               name="mobileNumber"
               value={formData.mobileNumber}
+              onChange={handleChange}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              required
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
               onChange={handleChange}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               required
@@ -232,7 +264,7 @@ const UserRegistrationScreen = () => {
                 <input
                   type="checkbox"
                   id="cow"
-                  name="animalTypes.cow"
+                  name="cow"
                   checked={formData.animalTypes.cow}
                   onChange={handleChange}
                   className="form-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
@@ -245,7 +277,7 @@ const UserRegistrationScreen = () => {
                 <input
                   type="checkbox"
                   id="buffalo"
-                  name="animalTypes.buffalo"
+                  name="buffalo"
                   checked={formData.animalTypes.buffalo}
                   onChange={handleChange}
                   className="form-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
@@ -258,7 +290,7 @@ const UserRegistrationScreen = () => {
                 <input
                   type="checkbox"
                   id="goat"
-                  name="animalTypes.goat"
+                  name="goat"
                   checked={formData.animalTypes.goat}
                   onChange={handleChange}
                   className="form-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
@@ -293,8 +325,8 @@ const UserRegistrationScreen = () => {
                 id="termsAgreed"
                 name="termsAgreed"
                 type="checkbox"
-                checked={formData.termsAgreed}
-                onChange={handleChange}
+                defaultChecked={true}
+                // onChange={handleChange}
                 className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
                 required
               />

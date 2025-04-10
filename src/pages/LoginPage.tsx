@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import CountryCodeSelect from "../components/ui/CountryCodeSelect";
 import InputField from "../components/ui/InputField";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
+import { useAppContext } from "../context/AppContext";
 
 
 const LoginPage: React.FC = () => {
+  const { registeredUsers, setUser } = useAppContext();
   const [formData, setFormData] = useState({
     countryCode: "+91",
     mobile: "",
@@ -24,15 +25,26 @@ const LoginPage: React.FC = () => {
     }));
   };
 
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setErrorMsg("");
-
     // Simulate API call
     setTimeout(() => {
       if (formData.mobile.length === 10 && formData.password) {
         setErrorMsg("");
+        const user = registeredUsers.find(
+          (user) =>
+            user.mobileNumber === formData.mobile &&
+            user.password === formData.password
+        );
+        if (!user) {
+          setErrorMsg("Invalid credentials");
+          setIsLoading(false);
+          return;
+        }
+        setErrorMsg("Login Successful");
+        setUser(user.id);
         // Here you would typically handle successful login
       } else if (formData.mobile.length !== 10) {
         setErrorMsg("Please enter valid 10 digit mobile number");

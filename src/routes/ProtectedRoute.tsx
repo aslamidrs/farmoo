@@ -7,7 +7,7 @@ export default function ProtectedRoute(props: any) {
     const isLoggedIn = useMemo(() => {
         return user !== null;
     }, [user]);
-    if (!isLoggedIn) {
+    if (isLoggedIn) {
         return props.element;
     }
     return <Navigate to="/login" replace />;

@@ -14,6 +14,8 @@ import RegisterPage from "./pages/RegisterPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import NotFoundPage from "./pages/NotFoundPage";
 import AnimalDetailsPage from "./pages/AnimalDetailsPage";
+import RedirectRoute from "./routes/RedirectRoute";
+import "toastifier/dist/toastifier.min.css";
 
 const App: React.FC = () => {
 
@@ -22,8 +24,14 @@ const App: React.FC = () => {
       <Router>
         <Routes>
           {/* Public routes */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/login"
+            element={<RedirectRoute element={<LoginPage />} />}
+          />
+          <Route
+            path="/register"
+            element={<RedirectRoute element={<RegisterPage />} />}
+          />
           {/* Protected routes */}
           <Route path="/protected" element={<PageContainer />}>
             <Route

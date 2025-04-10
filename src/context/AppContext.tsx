@@ -13,12 +13,31 @@ interface AnimalData {
 }
 
 interface User {
+  id: string;
   fullName: string;
-  phoneNumber: string;
+  mobileNumber: string;
   address: string;
+  district: string;
   state: string;
   pincode: string;
+  aadharCard: File | null;
+  languagePreference: any;
+  termsAgreed: boolean;
+  password: string;
+  animalTypes: {
+    cow: boolean;
+    buffalo: boolean;
+    goat: boolean;
+  };
+  numberOfAnimals: string;
+}
 
+interface Notification {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  read: boolean;
 }
 
 interface AppContextType {
@@ -28,8 +47,12 @@ interface AppContextType {
   setUser: (user: string | null) => void;
   aiData: string[];
   setAiData: (data: string[]) => void;
-    vetAiData: string[];
-    setVetAiData: (data: string[]) => void;
+  vetAiData: string[];
+  setVetAiData: (data: string[]) => void;
+  registeredUsers: User[];
+  handleRegisteredUsers: (data: User) => void;
+  notifications: Notification[];
+  handlePushNotification: (notification: Notification) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -37,6 +60,8 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 const useAnimalDataState = createPersistedState<AnimalData[]>("animalData");
 const useUserState = createPersistedState<string | null>("user");
 const useAiData = createPersistedState<string[]>("aiData");
+const useRegisteredUsers = createPersistedState<User[]>("registeredUsers");
+const useNotifications = createPersistedState<Notification[]>("notifications");
 
 export const AppProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -44,16 +69,41 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   const [animalData, setAnimalData] = useAnimalDataState([]);
     const [user, setUser] = useUserState(null);
     const [ aiData, setAiData ] = useAiData([]);
-    const [ vetAiData, setVetAiData ] = useAiData([]);
+  const [vetAiData, setVetAiData] = useAiData([]);
+  const [registeredUsers, setRegisteredUsers] = useRegisteredUsers([]);
+  const [notifications, setNotifications] = useNotifications([]);
+
+  const handleRegisteredUsers = (data: User) => { 
+    setRegisteredUsers((prev) => [...prev, data]);
+  }
 
   const handleAddAnimal = (data: AnimalData) => {
     setAnimalData((prev) => [...prev, data]);
   };
 
+  const handlePushNotification = (notification: Notification) => {
+    setNotifications((prev) => [...prev, notification]);
+   }
+
   return (
-    <AppContext.Provider value={{ animalData, handleAddAnimal, user, setUser, aiData, setAiData, vetAiData, setVetAiData }}>
+    <AppContext.Provider
+      value={{
+        animalData,
+        handleAddAnimal,
+        user,
+        setUser,
+        aiData,
+        setAiData,
+        vetAiData,
+        setVetAiData,
+        registeredUsers,
+        handleRegisteredUsers,
+        notifications,
+        handlePushNotification,
+      }}
+    >
       {children}
-    </AppContext.Provider>  
+    </AppContext.Provider>
   );
 };
 

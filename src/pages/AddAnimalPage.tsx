@@ -7,6 +7,8 @@ import { Label } from "../components/ui/Label";
 import { Button } from "../components/ui/Button";
 import { useAppContext } from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
+//@ts-ignore
+import toastifier from "toastifier"
 
 const breedOptions: Record<string, string[]> = {
   cow: [
@@ -40,7 +42,7 @@ export const AddAnimalPage: React.FC = () => {
     formState: { errors },
   } = useForm();
 
-  const { handleAddAnimal, animalData } = useAppContext();
+  const { handleAddAnimal, animalData, handlePushNotification } = useAppContext();
 
 
   const onSubmit = (data: any) => {
@@ -63,6 +65,13 @@ export const AddAnimalPage: React.FC = () => {
          image: '',
        });
     }
+    handlePushNotification({
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2),
+      title: "Animal Added",
+      description: "Animal details have been added successfully.",
+      date: new Date().toISOString(),
+      read: false,
+    });
     navigate('/protected/animals');
   };
 

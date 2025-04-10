@@ -51,7 +51,7 @@ const ProfilePage = () => {
                 <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?fm=jpg&q=60&w=100" alt="profile" className='w-full h-full object-cover'/>
             </div>
             <div className='flex flex-col max-w-64'>
-                <h1 className='text-3xl font-bold text-secondary'>John Doe</h1>
+                <h1 className='text-2xl font-bold text-secondary'>John Doe</h1>
                 <p className='text-md text-gray-500'>+91 70079 92740</p>
                 <p className='text-md text-gray-500'>Akhil Bhartiya Farm, Gurgaon, HR</p>
             </div>

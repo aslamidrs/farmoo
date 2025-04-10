@@ -8,6 +8,8 @@ import { HomePage } from "./pages/HomePage";
 import ProfilePage from "./pages/Profile";
 import PageContainer from "./containers/Page";
 import { AppProvider } from "./context/AppContext";
+import CommunityPage from "./pages/CommunityPage";
+import CommunityPost from "./pages/CommunityPost";
 
 const App: React.FC = () => {
   return (
@@ -21,8 +23,10 @@ const App: React.FC = () => {
           <Route path="home" element={<HomePage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="add-animal" element={<AddAnimalPage />} />
+          <Route path="landing" element={<LandingPage />} />
+          <Route path="community" element={<CommunityPage />} />
+          <Route path="community/:id" element={<CommunityPost />} />
         </Route>
-        <Route path="/" element={<LandingPage />} />
       </Routes>
       </Router>
       </AppProvider>

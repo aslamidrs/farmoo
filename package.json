@@ -12,18 +12,22 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.3",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
     "framer-motion": "^12.6.3",
     "lucide-react": "^0.487.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.55.0",
     "react-router-dom": "^7.5.0",
-    "tailwindcss": "^4.1.3"
+    "tailwindcss": "^4.1.3",
+    "toastifier": "^1.3.0",
+    "use-persisted-state": "^0.3.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "@types/use-persisted-state": "^0.3.5",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",

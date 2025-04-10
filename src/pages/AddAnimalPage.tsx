@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Input } from "../components/ui/Input";
 import { Select } from "../components/ui/Select";
@@ -6,17 +6,32 @@ import { TextArea } from "../components/ui/TextArea";
 import { Label } from "../components/ui/Label";
 import { Button } from "../components/ui/Button";
 import { useAppContext } from "../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const breedOptions: Record<string, string[]> = {
-  cow: ["Gir", "Sahiwal", "Red Sindhi"],
-  buffalo: ["Murrah", "Jaffarabadi", "Mehsana"],
-  goat: ["Jamunapari", "Boer", "Barbari"],
+  cow: [
+    "Gir",
+    "Sahiwal",
+    "Red Sindhi",
+    "Tharparkar",
+    "Kankrej",
+    "Jersey",
+    "Holstein Friesian",
+  ],
+  buffalo: ["Murrah", "Jaffarabadi", "Mehsana", "Banni", "Nili-Ravi", "Surti"],
+  goat: [
+    "Jamunapari",
+    "Beetal",
+    "Barbari",
+    "Black Bengal",
+    "Sirohi",
+    "Osmanabadi",
+  ],
 };
 
 export const AddAnimalPage: React.FC = () => {
   const [animalType, setAnimalType] = useState("");
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -25,27 +40,25 @@ export const AddAnimalPage: React.FC = () => {
     formState: { errors },
   } = useForm();
 
-  const { setAnimalData, animalData } = useAppContext();
+  const { handleAddAnimal, animalData } = useAppContext();
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e) => setImagePreview(e.target?.result as string);
-      reader.readAsDataURL(e.target.files[0]);
-    }
-  };
 
   const onSubmit = (data: any) => {
-    setAnimalData(data);
-    console.log(data);
+    handleAddAnimal(data);
+    navigate('/protected/animals');
   };
+
+  console.log("Animal Data:", animalData);
+
+  const image = watch("image");
+  const imagePreview = useMemo(() => image, [image]);
 
   const selectedAnimalType = watch("type") || animalType;
 
   return (
     <div className="min-h-screen bg-background py-8 px-4">
       <div className="flex flex-col items-center mb-6">
-        <label htmlFor="animal-img" >
+        <label htmlFor="animal-img">
           {imagePreview ? (
             <img
               src={imagePreview}
@@ -58,12 +71,19 @@ export const AddAnimalPage: React.FC = () => {
             </div>
           )}
         </label>
-        <input
-          id="animal-img"
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          className="mt-2 text-sm w-0 h-0"
+        <Controller
+          name="image"
+          control={control}
+          rules={{ required: "Image is required" }}
+          render={({ field }) => (
+            <input
+              id="animal-img"
+              type="file"
+              accept="image/*"
+              className="mt-2 text-sm w-0 h-0"
+              {...field}
+            />
+          )}
         />
       </div>
 

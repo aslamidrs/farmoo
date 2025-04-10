@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
-
+import React, { createContext, useContext, ReactNode } from "react";
+import createPersistedState from "use-persisted-state";
 interface AnimalData {
   type: string;
   breed: string;
@@ -8,33 +8,33 @@ interface AnimalData {
   weight?: string;
   name: string;
   notes?: string;
-  image?: string;
+  image: string;
 }
 
 interface AppContextType {
-  animalData: AnimalData | null;
-  setAnimalData: (data: AnimalData) => void;
+  animalData: AnimalData[];
+  handleAddAnimal: (data: AnimalData) => void;
   user: string | null;
   setUser: (user: string | null) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
+const useAnimalDataState = createPersistedState<AnimalData[]>("animalData");
+const useUserState = createPersistedState<string | null>("user");
+
 export const AppProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [animalData, setAnimalData] = useState<AnimalData | null>(null);
-  const [user, setUser] = useState<string | null>(null);
+  const [animalData, setAnimalData] = useAnimalDataState([]);
+  const [user, setUser] = useUserState(null);
+
+  const handleAddAnimal = (data: AnimalData) => {
+    setAnimalData((prev) => [...prev, data]);
+  };
 
   return (
-    <AppContext.Provider
-      value={{
-        animalData,
-        setAnimalData,
-        user,
-        setUser,
-      }}
-    >
+    <AppContext.Provider value={{ animalData, handleAddAnimal, user, setUser }}>
       {children}
     </AppContext.Provider>
   );

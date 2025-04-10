@@ -8,6 +8,7 @@ import { HomePage } from "./pages/HomePage";
 import ProfilePage from "./pages/Profile";
 import PageContainer from "./containers/Page";
 import { AppProvider } from "./context/AppContext";
+import AnimalsPage from "./pages/AnimalsPage";
 
 const App: React.FC = () => {
   return (
@@ -20,7 +21,8 @@ const App: React.FC = () => {
         <Route path="/protected" element={<PageContainer />} >
           <Route path="home" element={<HomePage />} />
           <Route path="profile" element={<ProfilePage />} />
-          <Route path="add-animal" element={<AddAnimalPage />} />
+            <Route path="add-animal" element={<AddAnimalPage />} />
+            <Route path='animals' element={<AnimalsPage />} />
         </Route>
         <Route path="/" element={<LandingPage />} />
       </Routes>

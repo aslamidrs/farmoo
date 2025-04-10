@@ -6,11 +6,11 @@
 @import "tailwindcss";
 
 @theme {
-    --color-primary: "#283618";
-    --color-secondary: "#508991";
-    --color-accent: "#DDA15E";
-    --color-background: "#F3F4F6"
-    --color-accent-secondary: "#BC6C25",
+    --color-primary: #283618;
+    --color-secondary: #508991;
+    --color-accent: #DDA15E;
+    --color-background: #F3F4F6;
+    --color-accent-secondary: #BC6C25;
 }
 
 body {

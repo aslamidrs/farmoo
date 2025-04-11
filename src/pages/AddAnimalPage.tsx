@@ -234,7 +234,7 @@ export const AddAnimalPage: React.FC = () => {
     formState: { errors },
   } = useForm();
 
-  const { handleAddAnimal, animalData, handlePushNotification } = useAppContext();
+  const { handleAddAnimal, handlePushNotification } = useAppContext();
 
 
   const onSubmit = (data: any) => {
@@ -270,7 +270,7 @@ export const AddAnimalPage: React.FC = () => {
   };
 
 const image = watch("image"); // This is now a real File object
-
+  
 const imagePreview = useMemo(() => {
   if (image instanceof File) {
     return URL.createObjectURL(image);
@@ -299,7 +299,7 @@ const imagePreview = useMemo(() => {
         <Controller
           name="image"
           control={control}
-          rules={{  }}
+          rules={{}}
           render={({ field: { onChange, ref } }) => (
             <input
               id="animal-img"
@@ -397,6 +397,95 @@ const imagePreview = useMemo(() => {
           )}
         </div>
 
+        {watch("gender") === "female" && (
+          <div>
+            <Label text="Status" />
+            <div className="flex justify-start gap-x-4">
+              <div className="flex items-center gap-x-2">
+                <Controller
+                  name="status"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      id="pregnant"
+                      {...field}
+                      type="radio"
+                      value="pregnant"
+                      className="w-4 h-4"
+                      checked={watch("status") === "pregnant"}
+                    />
+                  )}
+                />
+                <Label text="Pregnant" />
+              </div>
+              <div className="flex items-center gap-x-2">
+                <Controller
+                  name="status"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      id="dry"
+                      {...field}
+                      type="radio"
+                      className="w-4 h-4"
+                      value="dry"
+                      checked={watch("status") === "dry"}
+                    />
+                  )}
+                />
+                <Label text="Dry" />
+              </div>
+              <div className="flex items-center gap-x-2">
+                <Controller
+                  name="status"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      id="lactating"
+                      {...field}
+                      type="radio"
+                      className="w-4 h-4"
+                      value="lactating"
+                      checked={watch("status") === "lactating"}
+                    />
+                  )}
+                />
+                <Label text="Lactating" />
+              </div>
+            </div>
+
+            <div className="mt-4" >
+              <Label htmlFor="lastCalving" text="Last Calving" />
+              <Input
+                id="lastCalving"
+                type="date"
+                {...register("lastCalving", {
+                  required: "last calving is required",
+                })}
+              />
+              {errors.dob && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.lastCalving.message}
+                </p>
+              )}
+            </div>
+            <div className="mt-4" >
+              <Label htmlFor="lastAi" text="Last date of AI" />
+              <Input
+                id="lastAi"
+                type="date"
+                {...register("lastAi", {
+                  required: "last date of AI is required",
+                })}
+              />
+              {errors.dob && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.lastAi.message}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
         <div>
           <Label htmlFor="dob" text="Date of Birth / Age" />
           <Input

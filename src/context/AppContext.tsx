@@ -10,6 +10,9 @@ interface AnimalData {
   notes?: string;
   image: string;
   id: string;
+  status: string;
+  lastAi: string;
+  lastCalving: string;
 }
 
 interface User {

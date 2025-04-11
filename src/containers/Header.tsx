@@ -16,7 +16,7 @@ export default function HeaderContainer() {
   useEffect(() => {
     if (notifications.length > 0) {
       notifications.forEach((notification) => {
-        !notification.read && toastifier({
+        !notification.read && toastifier(notification.description, {
           title: notification.title,
           message: notification.description,
           type: 'info',
